@@ -50,7 +50,7 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: telegram-bot
-        path: target
+        path: bot
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v4
@@ -61,5 +61,5 @@ jobs:
 
     - name: Deploy to AWS EC2
       run: |
-        scp -o StrictHostKeyChecking=no target/telegram-bot.jar ubuntu@${{ secrets.EC2_IP }}:/home/ubuntu/bot/telegram-bot.jar
+        scp -o StrictHostKeyChecking=no bot/telegram-bot.jar ubuntu@${{ secrets.EC2_IP }}:/home/ubuntu/bot/telegram-bot.jar
         ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_IP }} 'sudo systemctl restart telegram-bot.service'

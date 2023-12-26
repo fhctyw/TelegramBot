@@ -61,6 +61,8 @@ jobs:
         echo
         cat .ssh/known_hosts
         echo
+        cat .ssh/telegram-bot.pem
+        echo
         ls -al bot
 
         scp -i .ssh/telegram-bot.pem bot/telegram-bot.jar ubuntu@${{ secrets.EC2_IP }}:/home/ubuntu/bot/telegram-bot.jar

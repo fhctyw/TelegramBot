@@ -26,8 +26,7 @@ public class Main {
     public static void main(final String[] args) {
         try {
             System.out.println(args.length);
-            final String botToken = (args.length > 0 && !args[0].isEmpty())
-                    ? args[0] : readResource("token");
+            final String botToken = (args.length > 0 && !args[0].isEmpty()) ? args[0] : readResource("token");
             final TelegramBotsApi api = new TelegramBotsApi(DefaultBotSession.class);
             api.registerBot(new MessageBot(botToken));
         } catch (TelegramApiException e) {

@@ -23,7 +23,7 @@ jobs:
           ${{ runner.os }}-m2-
 
     - name: Run Unit tests
-      run: mvn test
+      run: mvn -X test
 
   build:
     runs-on: ubuntu-latest

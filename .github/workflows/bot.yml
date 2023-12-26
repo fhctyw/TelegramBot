@@ -5,7 +5,7 @@ on:
     branches: [master]
 
 jobs:
-  static-test:
+  tests:
     runs-on: ubuntu-latest
     steps:
     - name: Set up JDK 17
@@ -14,8 +14,16 @@ jobs:
         java-version: 17
         distribution: 'temurin'
 
-    - name: Run Checkstyle
-      run: mvn checkstyle:checkstyle
+    - name: Cache Maven packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-m2-
+
+    - name: Run Unit tests
+      run: mvn test
 
   build:
     runs-on: ubuntu-latest

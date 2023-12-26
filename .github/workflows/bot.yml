@@ -51,10 +51,7 @@ jobs:
         
         echo "${{ secrets.SSH_KEY }}" > .ssh/telegram-bot.pem
         chmod 600 .ssh/telegram-bot.pem
-        SSH_KEYSCAN=$(ssh-keyscan -H ${{ secrets.EC2_IP }})
-        if ! grep -q "$SSH_KEYSCAN" .ssh/known_hosts; then
-          echo "$SSH_KEYSCAN" >> .ssh/known_hosts
-        fi
+        ssh-keyscan -H ${{ secrets.EC2_IP }} >> .ssh/known_hosts
         
         mv bot/*.jar bot/telegram-bot.jar
         

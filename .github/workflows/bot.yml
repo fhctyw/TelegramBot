@@ -64,7 +64,8 @@ jobs:
         mkdir -p .ssh
         echo "${{ secrets.SSH_KEY }}" > .ssh/telegram-bot.pem
 
+    - name: Copy build
+      run: scp -i .ssh/telegram-bot.pem bot/telegram-bot.jar ubuntu@${{ secrets.EC2_IP }}:/home/ubuntu/bot/telegram-bot.jar
+
     - name: Deploy to AWS EC2
-      run: |
-        scp -i .ssh/telegram-bot.pem bot/telegram-bot.jar ubuntu@${{ secrets.EC2_IP }}:/home/ubuntu/bot/telegram-bot.jar
-        ssh -i .ssh/telegram-bot.pem ubuntu@${{ secrets.EC2_IP }} 'sudo systemctl restart telegram-bot.service'
+      run: ssh -i .ssh/telegram-bot.pem ubuntu@${{ secrets.EC2_IP }} 'sudo systemctl restart telegram-bot.service'

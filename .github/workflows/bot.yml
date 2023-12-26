@@ -51,7 +51,7 @@ jobs:
         chmod 700 .ssh
         echo "${{ secrets.SSH_KEY }}" > .ssh/telegram-bot.pem
         chmod 600 .ssh/telegram-bot.pem
-        ssh-keyscan -H ${{ secrets.EC2_IP }} > ssh/known_hosts
+        ssh-keyscan -H ${{ secrets.EC2_IP }} > .ssh/known_hosts
         
         mv bot/*.jar bot/telegram-bot.jar
 

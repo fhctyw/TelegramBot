@@ -49,22 +49,13 @@ jobs:
       run: |
         mkdir -p .ssh
         
-        echo "${{ secrets.SSH_KEY }}" > .ssh/telegram-bot.pem
-        chmod 400 .ssh/telegram-bot.pem
-        ssh-keyscan -H ${{ secrets.EC2_IP }} >> .ssh/known_hosts
+        echo "${{ secrets.SSH_KEY }}" > .ssh/telegram-bot
+        chmod 600 .ssh/telegram-bot
+        ssh-keyscan ${{ secrets.EC2_IP }} >> .ssh/known_hosts
+        chmod 644 .ssh/known_hosts
         
         mv bot/*.jar bot/telegram-bot.jar
-        
-        ls -al .
-        echo
-        ls -al .ssh
-        echo
-        cat .ssh/known_hosts
-        echo
-        cat .ssh/telegram-bot.pem
-        echo
-        ls -al bot
 
-        scp -i .ssh/telegram-bot.pem bot/telegram-bot.jar ubuntu@${{ secrets.EC2_IP }}:/home/ubuntu/bot/telegram-bot.jar
+        scp bot/telegram-bot.jar ubuntu@${{ secrets.EC2_IP }}:/home/ubuntu/bot/telegram-bot.jar
         ssh -o StrictHostKeyChecking=no -i .ssh/telegram-bot.pem ubuntu@${{ secrets.EC2_IP }} 'echo "BOT_TOKEN=${{ secrets.BOT_TOKEN }}" | sudo tee -a /etc/environment'
         ssh -o StrictHostKeyChecking=no -i .ssh/telegram-bot.pem ubuntu@${{ secrets.EC2_IP }} 'sudo systemctl restart telegram-bot.service'

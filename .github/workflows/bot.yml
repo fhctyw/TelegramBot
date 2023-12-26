@@ -71,16 +71,20 @@ jobs:
 
     - name: Deploy to AWS EC2
       run: |
-        ls .
         mkdir -p .ssh
         echo "${{ secrets.SSH_KEY }}" > .ssh/telegram-bot.pem
         chmod 600 .ssh/telegram-bot.pem
-        ls .
         SSH_KEYSCAN=$(ssh-keyscan -H "${{ secrets.EC2_IP }}")
+        
+        echo "$SSH_KEYSCAN"
+        
         if ! grep -q "$SSH_KEYSCAN" .ssh/known_hosts; then
           echo "$SSH_KEYSCAN" >> .ssh/known_hosts
         fi
-        ls .
-      
+        
+        ls .ssh
+        cat .ssh/telegram-bot.pem
+
+        
         scp -i .ssh/telegram-bot.pem bot/telegram-bot.jar ubuntu@${{ secrets.EC2_IP }}:/home/ubuntu/bot/telegram-bot.jar
         ssh -i .ssh/telegram-bot.pem ubuntu@${{ secrets.EC2_IP }} 'sudo systemctl restart telegram-bot.service'

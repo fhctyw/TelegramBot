@@ -58,9 +58,5 @@ jobs:
         
         mv bot/*.jar bot/telegram-bot.jar
 
-        ls -al .
-        echo
-        ls -al bot
-
         scp -o StrictHostKeyChecking=no -i .ssh/telegram-bot.pem bot/telegram-bot.jar ubuntu@${{ secrets.EC2_IP }}:/home/ubuntu/bot/telegram-bot.jar
         ssh -o StrictHostKeyChecking=no -i .ssh/telegram-bot.pem ubuntu@${{ secrets.EC2_IP }} 'sudo systemctl restart telegram-bot.service'

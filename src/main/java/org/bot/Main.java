@@ -12,6 +12,7 @@ public class Main {
     public  static String BotToken;
     static {
         BotToken = System.getenv("BOT_TOKEN"); // if remote server
+        System.out.println("Test");
         if (BotToken == null) {
             BotToken = readResource("token");
         }

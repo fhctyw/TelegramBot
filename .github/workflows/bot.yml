@@ -63,7 +63,7 @@ jobs:
       run: |
         mkdir -p .ssh
         echo "${{ secrets.SSH_KEY }}" > .ssh/telegram-bot.pem
-        SSH_KEYSCAN=$(ssh-keyscan -H "${{ secrets.EC2_IP }}")
+        # SSH_KEYSCAN=$(ssh-keyscan -H "${{ secrets.EC2_IP }}")
         
     - name: Copy build
       run: scp -i .ssh/telegram-bot.pem bot/telegram-bot.jar ubuntu@${{ secrets.EC2_IP }}:/home/ubuntu/bot/telegram-bot.jar

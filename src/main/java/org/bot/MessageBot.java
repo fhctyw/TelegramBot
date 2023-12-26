@@ -14,7 +14,8 @@ public class MessageBot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         final SendMessage message = new SendMessage();
         message.setChatId(update.getMessage().getChatId());
-        message.setText("Bot answer: " + update.getMessage().getText().toUpperCase());
+        final String userMessage = update.getMessage().getText().toUpperCase();
+        message.setText("Bot answer: " + userMessage);
         try {
             execute(message);
         } catch (TelegramApiException e) {

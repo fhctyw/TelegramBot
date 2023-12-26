@@ -73,10 +73,12 @@ jobs:
       run: |
         mkdir -p .ssh
         echo "${{ secrets.SSH_KEY }}" > .ssh/telegram-bot.pem
-        SSH_KEYSCAN=$(ssh-keyscan -H "${{ secrets.EC2_IP }}")
-        if ! grep -q "$SSH_KEYSCAN" .ssh/known_hosts; then
-          echo "$SSH_KEYSCAN" >> .ssh/known_hosts
-        fi
+#        SSH_KEYSCAN=$(ssh-keyscan -H "${{ secrets.EC2_IP }}")
+#        if ! grep -q "$SSH_KEYSCAN" .ssh/known_hosts; then
+#          echo "$SSH_KEYSCAN" >> .ssh/known_hosts
+#        fi
+
+        ls -al .
         
         scp -i .ssh/telegram-bot.pem bot/telegram-bot.jar ubuntu@${{ secrets.EC2_IP }}:/home/ubuntu/bot/telegram-bot.jar
         ssh -i .ssh/telegram-bot.pem ubuntu@${{ secrets.EC2_IP }} 'sudo systemctl restart telegram-bot.service'

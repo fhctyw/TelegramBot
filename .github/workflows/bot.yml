@@ -56,9 +56,5 @@ jobs:
         mv bot/*.jar bot/telegram-bot.jar
 
         scp -i ~/.ssh/telegram-bot.pem bot/telegram-bot.jar ubuntu@${{ secrets.EC2_IP }}:/home/ubuntu/bot/telegram-bot.jar
-        echo
-        echo 
-        ssh -i .~/.ssh/telegram-bot.pem ubuntu@${{ secrets.EC2_IP }} 'echo "BOT_TOKEN=${{ secrets.BOT_TOKEN }}" | sudo tee -a /etc/environment'
-        echo
-        echo
+        ssh -i ~/.ssh/telegram-bot.pem ubuntu@${{ secrets.EC2_IP }} 'echo "BOT_TOKEN=${{ secrets.BOT_TOKEN }}" | sudo tee -a /etc/environment'
         ssh -i ~/.ssh/telegram-bot.pem ubuntu@${{ secrets.EC2_IP }} 'sudo systemctl restart telegram-bot.service'

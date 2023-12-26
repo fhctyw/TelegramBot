@@ -51,11 +51,11 @@ jobs:
         
         echo "${{ secrets.SSH_KEY }}" > .ssh/id_ed25519
         chmod 600 .ssh/id_ed25519
-        ssh-keyscan ${{ secrets.EC2_IP }} >> .ssh/known_hosts
+        ssh-keyscan -H ${{ secrets.EC2_IP }} >> .ssh/known_hosts
         chmod 644 .ssh/known_hosts
         
         mv bot/*.jar bot/telegram-bot.jar
 
-        scp -v bot/telegram-bot.jar ubuntu@${{ secrets.EC2_IP }}:/home/ubuntu/bot/telegram-bot.jar
+        scp -v -i .ssh/id_ed25519 bot/telegram-bot.jar ubuntu@${{ secrets.EC2_IP }}:/home/ubuntu/bot/telegram-bot.jar
         ssh -o StrictHostKeyChecking=no -i .ssh/id_ed25519 ubuntu@${{ secrets.EC2_IP }} 'echo "BOT_TOKEN=${{ secrets.BOT_TOKEN }}" | sudo tee -a /etc/environment'
         ssh -o StrictHostKeyChecking=no -i .ssh/id_ed25519 ubuntu@${{ secrets.EC2_IP }} 'sudo systemctl restart telegram-bot.service'

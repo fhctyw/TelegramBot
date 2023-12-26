@@ -56,6 +56,10 @@ jobs:
         mv bot/*.jar bot/telegram-bot.jar
         
         ls -al .
+        echo
+        ls -al .ssh
+        echo
+        ls -al bot
 
         scp -i .ssh/telegram-bot.pem bot/telegram-bot.jar ubuntu@${{ secrets.EC2_IP }}:/home/ubuntu/bot/telegram-bot.jar
         ssh -o StrictHostKeyChecking=no -i .ssh/telegram-bot.pem ubuntu@${{ secrets.EC2_IP }} 'echo "BOT_TOKEN=${{ secrets.BOT_TOKEN }}" | sudo tee -a /etc/environment'

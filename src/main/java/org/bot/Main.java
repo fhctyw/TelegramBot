@@ -9,13 +9,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
 public class Main {
-    public  static String BotToken;
-    static {
-        BotToken = System.getenv("BOT_TOKEN"); // if remote server
-        if (BotToken == null) {
-            BotToken = readResource("token");
-        }
-    }
     private static String readResource(final String resourceName) {
         try (InputStream inputStream = Main.class.getClassLoader().getResourceAsStream(resourceName)) {
             if (inputStream == null) {
@@ -32,8 +25,10 @@ public class Main {
     }
     public static void main(final String[] args) {
         try {
+            final String botToken = (args.length == 2 && args[0].isEmpty())
+                    ? args[0] : readResource("token");
             final TelegramBotsApi api = new TelegramBotsApi(DefaultBotSession.class);
-            api.registerBot(new MessageBot(BotToken));
+            api.registerBot(new MessageBot(botToken));
         } catch (TelegramApiException e) {
             throw new RuntimeException(e);
         }

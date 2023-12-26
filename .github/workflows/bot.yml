@@ -19,13 +19,6 @@ jobs:
       with:
         java-version: 17
         distribution: 'temurin'
-    
-    # - name: Cache Maven packages
-    #   uses: actions/checkout@v3
-    #   with:
-    #     path: ~/.m2
-    #     key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-    #     restore-keys: ${{ runner.os }}-m2
 
     - name: Build with Maven
       run: mvn clean compile assembly:single
@@ -57,11 +50,13 @@ jobs:
         mkdir -p .ssh
         
         echo "${{ secrets.SSH_KEY }}" > .ssh/telegram-bot.pem
-        SSH_KEYSCAN=$(ssh-keyscan -H "${{ secrets.EC2_IP }}")
-        if ! grep -q "$SSH_KEYSCAN" .ssh/known_hosts; then
-          echo "$SSH_KEYSCAN" >> .ssh/known_hosts
-        fi
+        # SSH_KEYSCAN=$(ssh-keyscan -H "${{ secrets.EC2_IP }}")
+        # if ! grep -q "$SSH_KEYSCAN" .ssh/known_hosts; then
+        #   echo "$SSH_KEYSCAN" >> .ssh/known_hosts
+        # fi
         
+        mv bot/*.jar bot/telegram-bot.jar
+
         ls -al .
         echo
         ls -al bot

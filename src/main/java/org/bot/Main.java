@@ -25,7 +25,7 @@ public class Main {
     }
     public static void main(final String[] args) {
         try {
-            final String botToken = (args.length == 2 && args[0].isEmpty())
+            final String botToken = (args.length > 2 && !args[0].isEmpty())
                     ? args[0] : readResource("token");
             final TelegramBotsApi api = new TelegramBotsApi(DefaultBotSession.class);
             api.registerBot(new MessageBot(botToken));

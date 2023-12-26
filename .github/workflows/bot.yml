@@ -71,5 +71,5 @@ jobs:
 
     - name: Deploy to AWS EC2
       run: |
-        scp -i .ssh/telegram-bot.pem bot/telegram-bot.jar ubuntu@${{ secrets.EC2_IP }}:/home/ubuntu/bot/telegram-bot.jar
-        ssh -i .ssh/telegram-bot.pem ubuntu@${{ secrets.EC2_IP }} 'sudo systemctl restart telegram-bot.service'
+        scp -o StrictHostKeyChecking=no -i .ssh/telegram-bot.pem bot/telegram-bot.jar ubuntu@${{ secrets.EC2_IP }}:/home/ubuntu/bot/telegram-bot.jar
+        ssh -o StrictHostKeyChecking=no -i .ssh/telegram-bot.pem ubuntu@${{ secrets.EC2_IP }} 'sudo systemctl restart telegram-bot.service'
